@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import android.os.Handler;
@@ -13,15 +15,16 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 import android.widget.TextView;
 
+import static java.lang.Math.round;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     private TextView xAcc, yAcc, zAcc, zAngle;
-    private double getAcceleration_X, getAcceleration_Y, getAcceleration_Z;
     private Sensor mySensor, myGravity;
     private SensorManager SM;
 
     Handler handler;
-    int interval = 1000; //read sensor data each 1000 ms
+    int interval = 100; //read sensor data each 1000 ms
     boolean flag = false;
     boolean isHandlerLive = false;
 
@@ -81,12 +84,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
        if (flag) {
-           getAcceleration_X = event.values[0];
-           getAcceleration_Y = event.values[1];
-           getAcceleration_Z = event.values[2];
-           xAcc.setText("X: " + event.values[0]);
-           yAcc.setText("Y: " + event.values[1]);
-           zAcc.setText("Z: " + event.values[2]);
+//           DecimalFormat df = new DecimalFormat("#.###");
+//           df.setRoundingMode(RoundingMode.CEILING);
+           double getAcceleration_X = event.values[0];
+           double getAcceleration_Y = event.values[1];
+           double getAcceleration_Z = event.values[2];
+
+//           df.format(getAcceleration_Y);
+//           df.format(getAcceleration_Z);
+           Log.d("Xaccelration is", Double.toString(getAcceleration_X));
+           Log.d("Yaccelration is", Double.toString(getAcceleration_Y));
+           Log.d("Zaccelration is", Double.toString(getAcceleration_Z));
+           xAcc.setText("X: " + new DecimalFormat("#.##").format(event.values[0]));
+           yAcc.setText("Y: " + new DecimalFormat("#.##").format(event.values[1]));
+           zAcc.setText("Z: " + new DecimalFormat("#.##").format(event.values[2]));
            angleCalculation(getAcceleration_X, getAcceleration_Y, getAcceleration_Z );
            flag = false;
        }
@@ -101,9 +112,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void angleCalculation(double Ax, double Ay, double Az) {
-        double zAxisAngle = 90 + (180/Math.PI) * Math.atan(Az/(Math.sqrt(Math.pow(Ax, 2) + Math.pow(Ay, 2))));
-
-            String zAngleFinal = Double.toString(zAxisAngle);
-            zAngle.setText(zAngleFinal);
+        double zAxisAngle = (180/Math.PI) * Math.atan(Az/(Math.sqrt(Math.pow(Ax, 2) + Math.pow(Ay, 2))));
+            zAngle.setText(new DecimalFormat("###.###").format(zAxisAngle));
     }
 }
