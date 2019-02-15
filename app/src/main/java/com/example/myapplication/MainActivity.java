@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 //           df.format(getAcceleration_Y);
 //           df.format(getAcceleration_Z);
-           Log.d("Xaccelration is", Double.toString(getAcceleration_X));
-           Log.d("Yaccelration is", Double.toString(getAcceleration_Y));
-           Log.d("Zaccelration is", Double.toString(getAcceleration_Z));
+//           Log.d("Xaccelration is", Double.toString(getAcceleration_X));
+//           Log.d("Yaccelration is", Double.toString(getAcceleration_Y));
+//           Log.d("Zaccelration is", Double.toString(getAcceleration_Z));
            xAcc.setText("X: " + new DecimalFormat("#.##").format(event.values[0]));
            yAcc.setText("Y: " + new DecimalFormat("#.##").format(event.values[1]));
            zAcc.setText("Z: " + new DecimalFormat("#.##").format(event.values[2]));
