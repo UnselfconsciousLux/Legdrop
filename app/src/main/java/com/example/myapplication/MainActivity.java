@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager SM;
 
     Handler handler;
-    int interval = 100; //read sensor data each 1000 ms
+    int interval = 1000; //read sensor data each 1000 ms
     boolean flag = false;
     boolean isHandlerLive = false;
 
@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
 
         //gravity
-        myGravity = SM.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        //myGravity = SM.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
         //Accelerometer Sensor
-       // mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+       mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         // Register sensor Listener
         //SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -66,16 +66,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onResume() {
         super.onResume();
-        SM.registerListener(this, myGravity,
-                SensorManager.SENSOR_DELAY_NORMAL);
-
+        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
         handler.post(processSensors);
     }
 
     @Override
     public void onPause() {
         handler.removeCallbacks(processSensors);
-
         super.onPause();
     }
 
@@ -92,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 //           df.format(getAcceleration_Y);
 //           df.format(getAcceleration_Z);
-//           Log.d("Xaccelration is", Double.toString(getAcceleration_X));
-//           Log.d("Yaccelration is", Double.toString(getAcceleration_Y));
-//           Log.d("Zaccelration is", Double.toString(getAcceleration_Z));
+           Log.d("Xaccelration is", Double.toString(getAcceleration_X));
+           Log.d("Yaccelration is", Double.toString(getAcceleration_Y));
+           Log.d("Zaccelration is", Double.toString(getAcceleration_Z));
            xAcc.setText("X: " + new DecimalFormat("#.##").format(event.values[0]));
            yAcc.setText("Y: " + new DecimalFormat("#.##").format(event.values[1]));
            zAcc.setText("Z: " + new DecimalFormat("#.##").format(event.values[2]));
